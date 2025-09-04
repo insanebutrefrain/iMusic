@@ -31,7 +31,8 @@ fun MainScreen(viewModel: IMusicViewModel, navController: NavHostController) {
         HandleBack()//两次左滑退出
 
         HorizontalPager(
-            state = pageState
+            state = pageState,
+            userScrollEnabled = false, // 禁用用户滚动
         ) { page: Int ->
             pagers[page].ui(bottomPadding, navController, viewModel)
         }

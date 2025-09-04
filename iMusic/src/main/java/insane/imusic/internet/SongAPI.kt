@@ -14,11 +14,16 @@ interface SongAPI {
     suspend fun getAllSongs(): BaseResponse<List<SongVO>>
 
     /**
+     * 添加歌曲播放次数
+     */
+    @POST("song/addPlayCount")
+    suspend fun addPlayCount(@Query("id") id: Long): BaseResponse<Boolean>
+
+    /**
      * 获取歌曲文件
      * @param path 歌曲文件路径
      */
     @GET("/song/get")
     @Streaming
     suspend fun getSongStream(@Query("path") path: String): Response<ResponseBody>
-
 }

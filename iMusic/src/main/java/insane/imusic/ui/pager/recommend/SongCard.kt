@@ -78,7 +78,7 @@ fun SongCard(song: SongVO, viewModel: IMusicViewModel) {
 
                 Row {
                     Icon(
-                        painter = painterResource(id = R.drawable.icon_play_arrow), // 播放图标
+                        painter = painterResource(id = R.drawable.icon_pause), // 播放图标
                         contentDescription = "Play count",
                         modifier = Modifier.size(16.dp),
                         tint = Color.Gray

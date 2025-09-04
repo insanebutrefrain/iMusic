@@ -10,6 +10,8 @@ import java.util.concurrent.TimeUnit
  */
 object RetrofitInstance {
     private const val BASE_URL = "http://192.168.137.1:8080/"
+//    private const val BASE_URL = "http://192.168.184.1:8080/"
+//    private const val BASE_URL = "http://192.168.10.241:8080/"
 
     val client = OkHttpClient.Builder()
         .connectTimeout(2500, TimeUnit.MILLISECONDS)  // 连接超时时间
@@ -26,7 +28,7 @@ object RetrofitInstance {
             .build()
     }
 
-    val songAPI: SongAPI by lazy {
+    val songApi: SongAPI by lazy {
         retrofit.create(SongAPI::class.java)
     }
 

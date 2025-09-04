@@ -5,6 +5,7 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
@@ -35,7 +36,7 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun BottomBar(pageState: PagerState) {
-    BottomAppBar {
+    BottomAppBar(modifier = Modifier.height(60.dp)) {
         pagers.forEachIndexed { index, pager ->
             val scope = rememberCoroutineScope()
             NavigationBarItem(
@@ -51,11 +52,11 @@ fun BottomBar(pageState: PagerState) {
                         verticalArrangement = Arrangement.Center
                     ) {
                         Icon(
-                            modifier = Modifier.size(30.dp),
+                            modifier = Modifier.size(25.dp),
                             painter = painterResource(pager.icon),
                             contentDescription = pager.title,
-                            tint = if (index == pageState.currentPage) Color.Red else Color.Unspecified
-                        )
+                            tint = if (index == pageState.currentPage) Color.Red else Color.Unspecified,
+                            )
                         Text(
                             text = pager.title,
                             style = MaterialTheme.typography.labelSmall

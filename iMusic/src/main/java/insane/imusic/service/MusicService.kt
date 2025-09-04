@@ -12,6 +12,7 @@ import android.os.IBinder
 import android.os.Looper
 import androidx.core.app.NotificationCompat
 import androidx.media3.common.MediaItem
+import androidx.media3.common.Player
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.session.MediaSession
 import androidx.media3.session.MediaSessionService
@@ -30,35 +31,53 @@ class MusicService : MediaSessionService() {
         const val NOTIFICATION_ID = 1
     }
 
-    // 添加 Binder 类
-    inner class MusicBinder : Binder() {
-        fun getService(): MusicService = this@MusicService
+
+    /**
+     * 获取当前播放位置（毫秒）
+     */
+    fun getCurrentPosition(): Long {
+        return exoPlayer.currentPosition
     }
 
-    private val binder = MusicBinder()
-
-    override fun onBind(intent: Intent?): IBinder? {
-        super.onBind(intent)
-        return binder
+    /**
+     * 获取歌曲总时长（毫秒）
+     */
+    fun getDuration(): Long {
+        return exoPlayer.duration
     }
 
-    // 添加 onStartCommand 以支持前台服务
-    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        createNotificationChannel()
-        showNotification()
-        return super.onStartCommand(intent, flags, startId)
+    /**
+     * 拖拽到指定位置播放
+     */
+    fun seekTo(position: Long) {
+        exoPlayer.seekTo(position)
     }
 
+    /**
+     * 创建 MediaSession 和 ExoPlayer
+     */
     override fun onCreate() {
         super.onCreate()
 
         // 初始化 ExoPlayer
         exoPlayer = ExoPlayer.Builder(this).build()
 
+
+        // 添加播放完成监听器
+        exoPlayer.addListener(object : Player.Listener {
+            override fun onPlaybackStateChanged(playbackState: Int) {
+                if (playbackState == Player.STATE_ENDED) {
+                    // 播放完成，通知 ViewModel 播放下一首
+                    playbackCompletionListener?.onPlaybackCompleted()
+                }
+            }
+        })
+
         // 创建 MediaSession
         mediaSession = MediaSession.Builder(this, exoPlayer)
             .setCallback(mediaSessionCallback)
             .build()
+
 
         // 初始化通知管理器
         notificationManager = getSystemService(NotificationManager::class.java)
@@ -70,6 +89,47 @@ class MusicService : MediaSessionService() {
         }
     }
 
+    /**
+     * 播放完成回调接口
+     */
+    interface PlaybackCompletionListener {
+        fun onPlaybackCompleted()
+    }
+
+    private var playbackCompletionListener: PlaybackCompletionListener? = null
+
+    fun setPlaybackCompletionListener(listener: PlaybackCompletionListener) {
+        this.playbackCompletionListener = listener
+    }
+
+    /**
+     * 添加 Binder 类
+     */
+    inner class MusicBinder : Binder() {
+        fun getService(): MusicService = this@MusicService
+    }
+
+    private val binder = MusicBinder()
+
+    override fun onBind(intent: Intent?): IBinder? {
+        super.onBind(intent)
+        return binder
+    }
+
+    /**
+     * 添加 onStartCommand 以支持前台服务
+     */
+    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        createNotificationChannel()
+        showNotification()
+        return super.onStartCommand(intent, flags, startId)
+    }
+
+
+
+    /**
+     * 播放歌曲
+     */
     fun playSong(song: SongVO) {
         try {
             // 构建完整的歌曲 URL 并使用 ExoPlayer 播放
@@ -89,6 +149,9 @@ class MusicService : MediaSessionService() {
         }
     }
 
+    /**
+     * 切换播放状态
+     */
     fun togglePlayback() {
         if (exoPlayer.isPlaying) {
             exoPlayer.pause()

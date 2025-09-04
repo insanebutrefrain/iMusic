@@ -32,28 +32,28 @@ import androidx.compose.ui.unit.dp
 fun MeTopBar() {
     TopAppBar(
         title = {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.Center,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Spacer(modifier = Modifier.width(30.dp))
-                Text(
-                    text = "状态",
-                    textAlign = TextAlign.Center,
-                    style = MaterialTheme.typography.labelSmall
-                )
-                Icon(
-                    modifier = Modifier
-                        .size(10.dp)
-                        .clickable {
-                            // todo 编辑状态
-                        },
-                    imageVector = Icons.Filled.Edit,
-                    contentDescription = "编辑状态",
-                    tint = Color.Gray
-                )
-            }
+//            Row(
+//                modifier = Modifier.fillMaxWidth(),
+//                horizontalArrangement = Arrangement.Center,
+//                verticalAlignment = Alignment.CenterVertically
+//            ) {
+//                Spacer(modifier = Modifier.width(30.dp))
+//                Text(
+//                    text = "状态",
+//                    textAlign = TextAlign.Center,
+//                    style = MaterialTheme.typography.labelSmall
+//                )
+//                Icon(
+//                    modifier = Modifier
+//                        .size(10.dp)
+//                        .clickable {
+//                            // todo 编辑状态
+//                        },
+//                    imageVector = Icons.Filled.Edit,
+//                    contentDescription = "编辑状态",
+//                    tint = Color.Gray
+//                )
+//            }
         },
         navigationIcon = {
             IconButton(onClick = {

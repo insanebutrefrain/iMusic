@@ -43,7 +43,7 @@ fun SnackBar(navController: NavHostController, viewModel: IMusicViewModel) {
             .fillMaxWidth(fraction = 0.9f)
             .clip(CircleShape)
             .background(MaterialTheme.colorScheme.primaryContainer)
-            .padding(end = 20.dp),
+            .padding(start = 5.dp, end = 20.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(10.dp)
     ) {
@@ -63,9 +63,9 @@ fun SnackBar(navController: NavHostController, viewModel: IMusicViewModel) {
             }) {
             Icon(
                 painter = if (isPlaying) {
-                    painterResource(R.drawable.icon_pause)
-                } else {
                     painterResource(R.drawable.icon_play_arrow)
+                } else {
+                    painterResource(R.drawable.icon_pause)
                 },
                 contentDescription = "播放或暂停"
             )

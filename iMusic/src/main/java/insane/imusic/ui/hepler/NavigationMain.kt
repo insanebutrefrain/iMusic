@@ -1,5 +1,7 @@
 package insane.imusic.ui.hepler
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
 import androidx.lifecycle.ViewModel
 import androidx.navigation.NavHostController
@@ -16,6 +18,7 @@ import insane.imusic.viewModel.IMusicViewModel
  * 主页面导航
  */
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun MainNavigation(viewModel: IMusicViewModel) {
     // 导航控制器

@@ -34,8 +34,8 @@ fun RotateIcon(
     isPlaying: Boolean,
     modifier: Modifier = Modifier.size(38.dp),
     rotationSpeed: Float = 0.5f,
-    borderWidth: Dp = 1.dp,
-    borderColor: Color = Color.Gray
+    borderWidth: Dp = 0.dp,
+    borderColor: Color = Color.Unspecified
 ) {
     var rotation by remember { mutableFloatStateOf(0f) }
 
@@ -45,7 +45,7 @@ fun RotateIcon(
             while (true) {
                 rotation += rotationSpeed
                 if (rotation >= 360f) rotation = 0f
-                delay(20)
+                delay(timeMillis = 20)
             }
         }
     }
